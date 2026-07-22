@@ -5,9 +5,9 @@ declare(strict_types=1);
 const PROGRESS_BAR_WIDTH = 30;
 const MAX_VERSION_FILE_SIZE = 1024 * 1024;
 const WORDPRESS_VERSION_PATTERN = '/^\d+(?:\.\d+)*(?:[-+._a-zA-Z0-9]+)?$/';
+const LINE_BREAK = PHP_SAPI === 'cli' ? PHP_EOL : "<br />\n";
 
 $baseDir = __DIR__;
-$lineBreak = PHP_SAPI === 'cli' ? PHP_EOL : "<br />\n";
 $iterator = new RecursiveIteratorIterator(
     new RecursiveDirectoryIterator($baseDir, FilesystemIterator::SKIP_DOTS),
     RecursiveIteratorIterator::SELF_FIRST
@@ -30,12 +30,12 @@ foreach ($iterator as $path => $info) {
 $total = count($versionFiles);
 
 if ($total === 0) {
-    echo "wp-includes / wp-include 内の version.php は見つかりませんでした。" . $lineBreak;
-    echo "探索完了" . $lineBreak;
+    echo "wp-includes / wp-include 内の version.php は見つかりませんでした。" . LINE_BREAK;
+    echo "探索完了" . LINE_BREAK;
     exit(0);
 }
 
-echo "探索中..." . $lineBreak;
+echo "探索中..." . LINE_BREAK;
 $results = [];
 
 foreach ($versionFiles as $index => $filePath) {
@@ -70,8 +70,8 @@ foreach ($versionFiles as $index => $filePath) {
     );
 }
 
-echo $lineBreak;
+echo LINE_BREAK;
 foreach ($results as $result) {
-    echo $result . $lineBreak . $lineBreak;
+    echo $result . LINE_BREAK . LINE_BREAK;
 }
-echo "探索完了" . $lineBreak;
+echo "探索完了" . LINE_BREAK;
