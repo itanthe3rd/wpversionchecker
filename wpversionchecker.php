@@ -45,7 +45,7 @@ foreach ($versionFiles as $index => $filePath) {
         // 例: 6.4.2 / 6.5-beta1 / 6.6-RC1 のような形式を許容
         if (
             $content !== false
-            && preg_match('/\$wp_version\s*=\s*[\'"]([^\'"]+)[\'"]\s*;/', $content, $matches) === 1
+            && preg_match('/\$wp_version\s*=\s*[\'\"]([^\'\"]+)[\'\"]\s*;/', $content, $matches) === 1
             && preg_match(WORDPRESS_VERSION_PATTERN, $matches[1]) === 1
         ) {
             $wpVersion = $matches[1];
@@ -71,6 +71,6 @@ foreach ($versionFiles as $index => $filePath) {
 
 echo "\n";
 foreach ($results as $result) {
-    echo $result . "\n";
+    echo $result . "\n\n";
 }
 echo "探索完了\n";
