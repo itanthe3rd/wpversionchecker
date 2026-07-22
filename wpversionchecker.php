@@ -56,7 +56,7 @@ foreach ($versionFiles as $index => $filePath) {
     $wpRoot = dirname(dirname($filePath));
     $relativePath = ltrim(str_replace($baseDir, '', $wpRoot), DIRECTORY_SEPARATOR);
     if ($relativePath === '') {
-        $relativePath = '.';
+        $relativePath = basename($baseDir);
     }
 
     $progress = ($index + 1) / $total;
