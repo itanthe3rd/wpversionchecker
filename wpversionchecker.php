@@ -16,6 +16,7 @@ foreach ($iterator as $path => $info) {
     }
 
     $parent = basename(dirname((string) $path));
+    // 要件文書にある wp-include と、一般的な wp-includes の両方を探索対象にする
     if ($parent === 'wp-includes' || $parent === 'wp-include') {
         $versionFiles[] = (string) $path;
     }
@@ -24,17 +25,18 @@ foreach ($iterator as $path => $info) {
 $total = count($versionFiles);
 
 if ($total === 0) {
-    echo "No wp-includes/wp-include version.php found.\n";
+    echo "wp-includes/wp-include の version.php は見つかりませんでした。\n";
     echo "探索完了\n";
     exit(0);
 }
 
 $barWidth = 30;
 echo "探索中...\n";
+$results = [];
 
 foreach ($versionFiles as $index => $filePath) {
     $wpVersion = null;
-    $content = @file_get_contents($filePath);
+    $content = is_readable($filePath) ? file_get_contents($filePath) : false;
     if ($content !== false && preg_match('/\$wp_version\s*=\s*[\'"]([^\'"]+)[\'"]\s*;/', $content, $matches) === 1) {
         $wpVersion = $matches[1];
     }
@@ -49,12 +51,15 @@ foreach ($versionFiles as $index => $filePath) {
     $filled = (int) floor($progress * $barWidth);
     $bar = str_repeat('#', $filled) . str_repeat('-', $barWidth - $filled);
     printf("\r[%s] %d/%d", $bar, $index + 1, $total);
-
-    printf(
-        "\n- %s | WordPress version: %s\n",
+    $results[] = sprintf(
+        "- %s | WordPress version: %s",
         $relativePath,
         $wpVersion !== null ? $wpVersion : 'unknown'
     );
 }
 
-echo "\n探索完了\n";
+echo "\n";
+foreach ($results as $result) {
+    echo $result . "\n";
+}
+echo "探索完了\n";

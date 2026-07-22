@@ -4,7 +4,7 @@ wordpress version checker
 ## Usage
 
 ```bash
-php /home/runner/work/wpversionchecker/wpversionchecker/wpversionchecker.php
+php wpversionchecker.php
 ```
 
 - このスクリプトと同じ階層以下を再帰探索します。
