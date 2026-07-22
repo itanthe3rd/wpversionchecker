@@ -20,7 +20,7 @@ foreach ($iterator as $path => $info) {
     }
 
     $parent = basename(dirname((string) $path));
-    // 要件に合わせ、標準 wp-includes と wp-include の両方を探索する
+    // 要件に合わせて、標準 wp-includes と wp-include の両方を探索する
     if ($parent === 'wp-includes' || $parent === 'wp-include') {
         $versionFiles[] = (string) $path;
     }
@@ -42,7 +42,7 @@ foreach ($versionFiles as $index => $filePath) {
     $fileSize = is_readable($filePath) ? filesize($filePath) : false;
     if ($fileSize !== false && $fileSize > 0 && $fileSize <= MAX_VERSION_FILE_SIZE) {
         $content = file_get_contents($filePath);
-        // 例: 6.4.2 / 6.5-beta1 / 6.6-RC1 のような形式を許容
+        // 例に限らず、英数字や記号を含む派生バージョン表記も許容
         if (
             $content !== false
             && preg_match('/\$wp_version\s*=\s*[\'\"]([^\'\"]+)[\'\"]\s*;/', $content, $matches) === 1
